@@ -1,6 +1,8 @@
 #### 2019년 7월 8일
 
-# StartCamp _ 쳇봇 Quest_Day1
+# StartCamp_W2_D1
+
+
 
 ### 컴퓨터의 주요 기능
 

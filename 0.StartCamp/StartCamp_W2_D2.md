@@ -1,6 +1,6 @@
 #### 2019년 7월 9일
 
-# StartCamp _ 쳇봇 Quest_Day2
+# StartCamp_W2_D2
 
 
 
