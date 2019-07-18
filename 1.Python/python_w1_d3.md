@@ -111,7 +111,7 @@
   - Local scope: 정의된 함수
   - Enclosed scope: 상위 함수
   - Global scope: 함수 밖의 변수 혹은 import된 모듈
-  - Built-in scople: 파이썬 안에 내장되어 있는 함수 또는 속성
+  - Built-in scope: 파이썬 안에 내장되어 있는 함수 또는 속성
 
 - 이름공간은 각자의 수명주기가 있다.
 
