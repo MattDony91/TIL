@@ -48,23 +48,25 @@
 - __기본 명령어__
 
   - __django project 생성__
-    - `$ django-admin startproject 프로젝트이름 프로젝트생성위치`
-
+    
+- `$ django-admin startproject 프로젝트이름 프로젝트생성위치`
+    
   - __django 서버 실행__
-    - `$ python manage.py runserver`
-
+  
+  - `$ python manage.py runserver`
+  
   - __app 생성__
-
-    - `$ django-admin startapp 앱이름`
+  
+    - `$ django-admin startapp 앱이름` 또는 `$ python manage.py startapp 앱이름`
     - __앱은 생성 후 반드시 프로젝트에 등록해야 한다.__
       - settings.py (기본으로 생성되는 파일 중 하나) 파일 안에
-      - INSTALLED_APPS 라는 리스트 변수 안에 '앱이름' 을 추가 한다.
+    - INSTALLED_APPS 라는 리스트 변수 안에 '앱이름' 을 추가 한다.
       - 직접 만든 앱이 리스트 인덱스의 우선순위에 있는 것을 권장한다.
 
   - __MTV 패턴으로 page를 추가하는 방법__
 
     - `project이름의 폴더` 안에 `urls.py 파일`을 열어 다음과 같이 작성한다.
-
+  
       ```python
       from django.contrib import admin
       from django.urls import path
@@ -73,11 +75,11 @@
       urlpatterns = [
           path('admin/', admin.site.urls),
           path('greeting/<str:name>/', views.greeting), # 사용자에게 요청받을 경로와 요청을 처리할 경로를 작성해준다.
-      ]
+    ]
       ```
 
     - `app이름의 폴더` 안에 `views.py 파일`을 열어 다음과 같이 작성한다.
-
+  
       ```python
       from django.shortcuts import render
       
@@ -86,11 +88,11 @@
           context = {
               'name': name,
           }
-          return render(request, 'greeting.html', context) # html 파일에 data를 넘겨주기 위해선 반드시 dictionary 형태의 한 덩어리로 묶어서 보내줘야 한다.
+        return render(request, 'greeting.html', context) # html 파일에 data를 넘겨주기 위해선 반드시 dictionary 형태의 한 덩어리로 묶어서 보내줘야 한다.
       ```
 
     - `app이름의 폴더` 안에 `templates 폴더`를 생성하고 그 안에 `greeting.html` 파일을 생성한다.
-
+  
       ```html
       <!DOCTYPE html>
       <html lang="en">
@@ -106,6 +108,7 @@
       </body>
       </html>
       ```
+    
 
 
 
