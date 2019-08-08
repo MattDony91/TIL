@@ -162,7 +162,7 @@
 
   >  python 코드를 DB에서 사용할수 있도록(sql로) 번역해줌
 
-  - __데이터 조작__ (CRUD)
+  - __데이터 조작 (CRUD)__ 
     - 데이터를 가지고 할 수 있는 작업으로는 CRUD 가 있다.
     - C (Create) : DB에 새로운 데이터를 생성한다.
     - R (Read) : DB에 저장된 데이터를 읽는다.
@@ -180,14 +180,21 @@
     
     class Post(models.Model):
         title = models.CharField(max_lenth=100)
-        content = models.CHarField(max_length=100)
+        content = models.CharField(max_length=100)
+        created_at = models.DateTimeField(auto_now_add=True)
+        # auto_now_add=True <= 데이터 베이스에 생성된 날짜를 자동으로 추가해주는 속성
+        
+        # 프린트의 기본값을 title로 함
+        # django 관리자페이지에서 데이터를 확인할때 한눈에 알아볼 수 있다.
+        def __str__(self):
+            return self.title
     ```
 
 - 터미널 창에서 아래와 같은 명령어를 실행해 준다.
 
   - python 문법을 sql 로 번역하는데 있어서 한번에 갈수 없고 중간 번역작업이 필요하고 그 중간 번역본을 생성하는 명령어
   - `$ python manage.py makemigrations` : 중간번역본을 생성
-  - `$ python manage.py migrate` : 중간번역을 거쳐 최종 번역까지 실행(DB 생성)
+  - `$ python manage.py migrate` : 번역 실행(DB 생성)
 
 - shell 모드로 접근해 DB를 조작해 보자.
 
