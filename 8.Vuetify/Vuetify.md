@@ -16,12 +16,13 @@
 4. Vuetify - Text & Colours
 5. Vuetify - Button & Icons
 6. Vuetify - Breakpoints & Visibility
+7. Vuetify - Toolbars & Navigation Drawers
 
 ---
 
 ## \<History>
 
-- 2020.01.17 - [edit index - 1, 2, 3, 4, 5] & [add index - 6]
+- 2020.01.17 - [edit index - 1, 2, 3, 4, 5] & [add index - 6, 7]
 
 - 2020.01.16 - [create document] & [add index - 1, 2, 3, 4, 5]
 
@@ -172,7 +173,7 @@
 
 ### 5. Vuetify - Button & Icons
 
-- __`<v-btn>버튼</v-btn>`__ : vuetify에서 제공하는 button component
+- __`<v-btn>`__ : vuetify에서 제공하는 button component
   - __버튼색, 버튼 안의 글자색 변경__:
     - 'v-' 로 시작하는 태그는 속성으로 원하는 색상을 입력해 미리 설정되어 있는 배경색과 글자색으로 조절 가능  ex) __`<v-btn dark>버튼</v-btn>`__
     - v-btn 태그의 class에 배경색과 글자색 입력  ex) __`<v-btn class="pink white--text">버튼</v-btn>`__
@@ -180,9 +181,9 @@
   - __버튼 그림자 효과 없애기__: v-btn 태그 안에 depressed 속성 주기  ex) __`<v-btn depressed color="pink">버튼</v-btn>`__
   - __버튼의 아웃트라인 없애기__:
     - v-btn 태그에 text 속성 주기  ex) __`<v-btn text color="pink">버튼</v-btn>`__
-    - vuetify@2.1.13 미만의 버전에서는 text -> flat 속성
+    - vuetify@2.1.13 이전 버전에서는 'text -> flat' 속성
   - __버튼 모양 변경__: v-btn 태그에 FAB, ROUNDED 속성 적용  ex) __`<v-btn fab>버튼</v-btn>`__
-- __`<v-icon>아이콘</v-icon>`__: MATERIAL DESIGN이 적용된 아이콘을 바로 사용가능하게 해준다.
+- __`<v-icon>`__: MATERIAL DESIGN이 적용된 아이콘을 바로 사용가능하게 해준다.
   - __아이콘 사용__: v-icon 태그에 MATERIAL DESIGN 에서 정의된 아이콘 이름 사용  ex) __`<v-icon>email</v-icon>`__
   - MATERIAL DESIGN 공식 사이트: __https://material.io/resources/icons/?style=baseline__
 - __사이즈 및 위치 조절__:
@@ -296,3 +297,168 @@
   - 적용화면
 
     ![1_4](assets/1_4.png)
+
+---
+
+### 7. Vuetify - Toolbars & Navigation Drawers
+
+- __`<v-toolbar>`__: nav 태그 안에서 사용하는 컴포넌트로 navigation 을 편하게 커스터마이징 할 수 있음
+  - __툴바의 그림자 없애기__: v-toolbar 태그에 flat 속성 추가  ex) __`<v-toolbar flat></v-toolbar>`__ 
+  - __`<v-toolbar-title>`__: toolbar 의 타이틀을 입력
+  - __`<v-spacer>`__: inline에서 속성들 간의 거리를 띄워주는 태그
+
+- 적용해 보기
+
+  - `src/components` 폴더 안에 `Navbar.vue` 파일 생성
+
+    ```vue
+    <template>
+      <nav>
+          <!-- toolbar 생성 및 타이틀 정해주기 -->
+          <v-toolbar flat class="grey lighten-4">
+            <v-toolbar-title class="text-uppercase grey--text">
+                <span class="font-weight-light">Todo</span>
+                <span>Develop</span>
+            </v-toolbar-title>
+            <!-- 버튼과 타이틀 사이 띄워주기 -->
+            <v-spacer></v-spacer>
+            <v-btn text color=grey>
+                <span>Sign Out</span>
+                <v-icon right>exit_to_app</v-icon>
+            </v-btn>
+          </v-toolbar>
+      </nav>
+    </template>
+    
+    <script>
+    export default {
+        name: 'Navbar',
+    }
+    </script>
+    
+    <style>
+    
+    </style>
+    ```
+
+  - 적용화면
+
+    ![1_5](assets/1_5.png)
+
+
+
+- __`<v-navigation-drawer>`__:
+
+  - 페이지의 네비게이션(원하는 곳으로 이동할 수 있도록 해주는 메뉴를 보여줌)
+
+  - default가 false 이기 때문에 v-navigation-drawer 만 사용하면 아무런 변화가 없다.
+
+  - __v-app 과 연결하기(필수)__: 네비게이션은 app이 아닌 특정 태그에 자식태그가 되어서는 안되기 때문에 root 인 v-app 과 연결해주기 위해 app 이라는 속성으르 사용한다.  ex) __`<v-navigation-drawer app></v-navigation-drawer>`__
+
+  - __v-navigation-drawer 상태 조작(false <-> true)__:
+
+    - 우선 vue의 v-model 속성을 사용해 사용자가 v-navigation-drawer 상태를 조작할 수 있도록 연결해 준다. 
+
+    - drawer의 값을 default 값인 false로 초기화
+    
+      ```vue
+      <template>
+      	<nav>
+              <v-navigation-drawer app v-model="drawer"></v-navigation-drawer>
+          </nav>
+      </template>
+      
+      <script>
+          export default {
+              name: 'Navbar',
+              data() {
+                  return {
+                      drawer: false, // true로 초기화 하고 새로고침을 누르면 navigation이 동작하는 것을 확인 할 수 있다.
+                  }
+              },
+          }
+    </script>
+      ```
+    
+    - __`<v-app-bar-nav-icon>`__: 편리하게 네비게이션 조작을 할 수 있도록 만들어진 메뉴 아이콘 모양 컴포넌트
+    
+      - v-on 속성을 이용해 이벤트 발생시 네이게이션에 연결된 drawer 값을 조작한다.
+    
+        ```vue
+        <template>
+        	<nav>
+                <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon> <!-- 클릭 이벤트 감지하는 토글 아이콘 -->
+                <v-navigation-drawer app v-model="drawer"></v-navigation-drawer>
+            </nav>
+        </template>
+        
+        <script>
+            export default {
+                name: 'Navbar',
+                data() {
+                    return {
+                        drawer: false,
+                    }
+                },
+            }
+        </script>
+        ```
+    
+        
+
+
+- 적용해 보기
+
+  - 위에서 생성한 `src/components/Navbar.vue` 파일에 아래와 같이 코드를 추가해 준다.
+
+    ```vue
+    <template>
+      <nav>
+          <v-toolbar flat class="grey lighten-4">
+            <!-- 네비게이션 조작하기 위한 icon 추가 -->
+            <v-app-bar-nav-icon class="grey--text" @click="drawer = !drawer"></v-app-bar-nav-icon>
+            <v-toolbar-title class="text-uppercase grey--text">
+                <span class="font-weight-light">Todo</span>
+                <span>Develop</span>
+            </v-toolbar-title>
+            <v-spacer></v-spacer>
+            <v-btn text color=grey>
+                <span>Sign Out</span>
+                <v-icon right>exit_to_app</v-icon>
+            </v-btn>
+          </v-toolbar>
+    	  <!-- 네비게이션 생성-->
+          <v-navigation-drawer app v-model="drawer" class="indigo">
+              <p class="display-1 white--text text-center mt-5">icon 클릭 시</p>
+          </v-navigation-drawer>
+      </nav>
+    </template>
+    
+    <script>
+    export default {
+        name: 'Navbar',
+        data() {
+            return {
+                drawer: false,
+        }
+        },
+  }
+    </script>
+  
+    <style>
+  
+    </style>
+    ```
+    
+  - 적용화면
+  
+      - 클릭 전
+  
+        ![1_6](assets/1_6.png)
+  
+    - 클릭 후
+  
+      ![1_7](assets/1_7.png)
+
+---
+
