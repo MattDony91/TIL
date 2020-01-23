@@ -17,6 +17,7 @@
 5. Vuetify - Button & Icons
 6. Vuetify - Breakpoints & Visibility
 7. Vuetify - Toolbars & Navigation Drawers
+8. Vuetify - Theme & Lists
 
 ---
 
@@ -345,7 +346,7 @@
 
     ![1_5](assets/1_5.png)
 
-
+러
 
 - __`<v-navigation-drawer>`__:
 
@@ -461,4 +462,163 @@
       ![1_7](assets/1_7.png)
 
 ---
+
+### 8. Vuetify - Theme & Lists
+
+- __테마적용하기__
+
+  > Vuetify 에서는 테마를 미리 설정해 편하게 사용 할 수 있다.
+
+  
+
+  - 첫번째 방법: `src/plugin/vuetify.js` 파일에 theme를 설정
+
+  ```js
+  // vuetify.js
+  export default  new Vuetify({
+      theme: {
+          themes: {
+              light: {
+                  primary: '#9652ff', // 미리설정 된 값을 변경 할 수 있음
+                  mycolor: '#bce067', // 특정 이름으로 설정 가능 
+              }
+          }
+      }
+  });
+  ```
+  - 두번째 방법: `theme.js` 파일을 생성 한 후 불러와서 사용
+
+    - `src/plugin/theme.js` 파일 생성 후 아래와 같이 작성
+
+    ```js
+    // theme.js
+    import colors from 'vuetify/lib/util/colors'
+    
+    export default {
+        first: colors.purple.base
+    }
+    ```
+
+    - `src/pulgin/vuetify.js` 파일에서 불러온 후 사용
+
+    ```js
+    import Vue from 'vue';
+    import Vuetify from 'vuetify/lib';
+    import light from './theme'
+    
+    Vue.use(Vuetify);
+    
+    export default  new Vuetify({
+        theme: {
+            themes: {
+                light
+            },
+        }
+    });
+    ```
+
+  - 정의한 테마는 class 속성을 통해 사용 할 수 있다.
+
+  ```vue
+  <template>
+  	<v-app>
+      	<p class="mycolor">mycolor</p>
+          <p class="first">first</p>
+      </v-app>
+  </template>
+  ```
+
+
+
+- __리스트 기본 구조__
+  - __`<v-list>`__: html 의 li 태그와 비슷한 기능
+
+    - __`<v-list-item>`__ : 하나의 리스트를 묶어주는 기본 컨테이너
+      - __`<v-list-item-action>`__ : 아이템을 설명하는 icon 등을 사용하기 위한 vue 기본 슬롯
+        - __`<v-list-item-action-text>`__ : icon 밑에 간단하게 설명해주는 text를 기입
+      - __`<v-list-item-content>`__ : 내용을 기입하기 위한 vue 기본 슬롯
+        - __`<v-list-item-title>`__: 해당 아이템의 제목을 입력
+        - __`<v-list-item-subtitle>`__ : 해당 아이템의 부제목을 입력
+    - 사용예시
+
+    ```vue
+    <v-list>
+    	<v-list-item>
+        	<v-list-item-action>
+                <v-icon>dashboard</v-icon>
+            	<v-list-item-action-text>BOARD</v-list-item-action-text>
+            </v-list-item-action>
+            <v-list-item-content>
+            	<v-list-item-title>Title</v-list-item-title>
+                <v-list-item-subtitle>Subtitle</v-list-item-subtitle>
+            </v-list-item-content>
+        </v-list-item>
+    </v-list>
+    ```
+
+  - __여러개의 아이템 생성하기__
+
+    - 위와 같은 구조를 반복 작성해 만들 수도 있지만 코드가 비효율적으로 길어진다.
+- script 의 데이터에 미리 정의하고 불러와 vue 의 기본 문법인 v-for 를 사용해 중복을 최소하 하여 여러 아이템을 만들 수 있다.
+
+
+
+- 적용해 보기
+
+  - `Navbar.vue` 파일에 다음과 같이 코드 작성
+
+    ```vue
+    <template>
+      <nav>
+          <v-toolbar app flat class="grey lighten-4">
+            <v-app-bar-nav-icon class="grey--text" @click="drawer = !drawer"></v-app-bar-nav-icon>
+            <v-toolbar-title class="text-uppercase grey--text">
+                <span class="font-weight-light">Todo</span>
+                <span>Develop</span>
+            </v-toolbar-title>
+            <v-spacer></v-spacer>
+            <v-btn text color=grey>
+                <span>Sign Out</span>
+                <v-icon right>exit_to_app</v-icon>
+            </v-btn>
+          </v-toolbar>
+    
+          <v-navigation-drawer app v-model="drawer" class="primary">
+              <v-list text>
+                <!-- vue의 반복문을 이용해 여러개의 아이템 생성 -->
+                <!-- router 속성을 이용해 route를 걸어준다. (route/index.js 파일에서 router 설정) -->
+                <v-list-item v-for="link in links" :key="link.text" router :to="link.route">
+                    <v-list-item-action>
+                        <v-icon class="white--text">{{ link.icon }}</v-icon>
+                    </v-list-item-action>
+                    <v-list-item-content>
+                        <v-list-item-title class="white--text">{{ link.text }}</v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
+              </v-list>
+          </v-navigation-drawer>
+      </nav>
+    </template>
+    
+    <script>
+    export default {
+        name: 'Navbar',
+        data() {
+            return {
+                drawer: false,
+                links: [
+                    { icon: 'dashboard', text: 'Dashboard', act: 'HOME', route: '/' },
+                    { icon: 'folder', text: 'My Projects', act: 'FOLD', route: '/about' }
+                ]
+            }
+        },
+    }
+    </script>
+    
+    <style>
+    
+    </style>
+    ```
+
+    
 
